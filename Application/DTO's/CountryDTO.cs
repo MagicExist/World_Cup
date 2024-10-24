@@ -11,7 +11,5 @@ namespace Application.DTO_s
         public int Id { get; set; }
         public string Name { get; set; }
         public string Entity { get; set; }
-        public string Flag { get; set; }
-        public string EntityLogo { get; set; }
     }
 }

@@ -16,9 +16,7 @@ namespace Application.Mappings
             {
                 Id = country.Id,
                 Name = country.Country1,
-                Entity = country.Entity,
-                Flag = country.Flag,
-                EntityLogo = country.EntityLogo
+                Entity = country.Entity
             };
         }
     }

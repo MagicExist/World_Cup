@@ -58,9 +58,7 @@ namespace Application.Services
                 {
                     Id = t.Id,
                     Name = t.Country1,
-                    Entity = t.Entity,
-                    Flag = t.Flag,
-                    EntityLogo = t.EntityLogo
+                    Entity = t.Entity
                 })
             };
         }
