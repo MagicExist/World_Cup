@@ -13,5 +13,7 @@ namespace Domain.Repository
         Task<IEnumerable<Country>> GetTeamsByChampionshipAsync(int championshipId);
         Task<bool> ChampionshipExistsAsync(int championshipId);
 
+        Task<(string Name, int Year)?> GetChampionshipInfoAsync(int championshipId);
+
     }
 }

@@ -29,6 +29,19 @@ namespace Persistence.Repositories
             return await _context.ChampionShips.AnyAsync(c => c.Id == championshipId);
         }
 
+        public async Task<(string Name, int Year)?> GetChampionshipInfoAsync(int championshipId)
+        {
+            var championship = await _context.ChampionShips
+                .Where(c => c.Id == championshipId)
+                .Select(c => new { c.ChampionShip1, c.Year })
+                .FirstOrDefaultAsync();
+
+            if (championship == null)
+                return null;
+
+            return (championship.ChampionShip1, championship.Year);
+        }
+
         public async Task<IEnumerable<Country>> GetTeamsByChampionshipAsync(int championshipId)
         {
             var championship = await _context.ChampionShips

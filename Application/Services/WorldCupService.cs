@@ -14,12 +14,9 @@ namespace Application.Services
     public class WorldCupService
     {
         private readonly IWorldCup worldCupRepository;
-        private readonly WorldCupsDbContext _context;
-
         public WorldCupService(IWorldCup worldCupRepository, WorldCupsDbContext context)
         {
             this.worldCupRepository = worldCupRepository;
-            _context = context;
         }
 
         public async Task<LinkedList<ChampionShipDTO>> GetChampionShipsAsync() 
@@ -41,13 +38,10 @@ namespace Application.Services
 
         public async Task<ChampionshipTeamsDTO> GetTeamsByChampionshipAsync(int championshipId)
         {
-            // Obtener información del campeonato
-            var championshipInfo = await _context.ChampionShips
-                .Where(c => c.Id == championshipId)
-                .Select(c => new { c.ChampionShip1, c.Year })
-                .FirstOrDefaultAsync();
+            // Obtener información del campeonato usando el repositorio
+            var championshipInfo = await worldCupRepository.GetChampionshipInfoAsync(championshipId);
 
-            if (championshipInfo == null)
+            if (!championshipInfo.HasValue)
             {
                 throw new KeyNotFoundException($"No se encontró el campeonato con ID {championshipId}");
             }
@@ -58,8 +52,8 @@ namespace Application.Services
             // Crear y retornar el DTO
             return new ChampionshipTeamsDTO
             {
-                ChampionshipName = championshipInfo.ChampionShip1,
-                Year = championshipInfo.Year,
+                ChampionshipName = championshipInfo.Value.Name,
+                Year = championshipInfo.Value.Year,
                 Teams = teams.Select(t => new CountryDTO
                 {
                     Id = t.Id,
