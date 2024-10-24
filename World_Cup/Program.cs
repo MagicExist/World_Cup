@@ -1,4 +1,6 @@
+using Microsoft.Data.SqlClient;
 using Persistence.Extensions;
+using Application.Extensions;
 namespace World_Cup
 {
     public class Program
@@ -10,6 +12,7 @@ namespace World_Cup
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.PersistenceService(builder.Configuration);
+            builder.Services.ApplicationService();
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

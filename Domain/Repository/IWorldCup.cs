@@ -9,6 +9,9 @@ namespace Domain.Repository
 {
     public interface IWorldCup
     {
-        Task<ChampionShip> GetChampionShipAsync();
+        Task<ChampionShip[]> GetChampionShipAsync();
+        Task<IEnumerable<Country>> GetTeamsByChampionshipAsync(int championshipId);
+        Task<bool> ChampionshipExistsAsync(int championshipId);
+
     }
 }
