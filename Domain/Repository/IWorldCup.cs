@@ -12,6 +12,6 @@ namespace Domain.Repository
         Task<ChampionShip[]> GetChampionShipAsync();
         Task<IEnumerable<Country>> GetTeamsByChampionshipAsync(int championshipId);
         Task<bool> ChampionshipExistsAsync(int championshipId);
-
+        IEnumerable<dynamic> GetPositionTableByGroup(int groupId);
     }
 }
