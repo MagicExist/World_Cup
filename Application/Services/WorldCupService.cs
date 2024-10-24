@@ -70,5 +70,36 @@ namespace Application.Services
                 })
             };
         }
+
+        public IEnumerable<dynamic> GetPositionTableByGroup(int group)
+        {
+            IEnumerable<Match> matchesByGroup = worldCupRepository.GetPositionTableByGroup(group);
+
+            var query = (from match in matchesByGroup
+                         let countryIds = new[] { match.FirstCountryId, match.SecondCountryId }
+                         from countryId in countryIds
+                         group match by countryId into matchByCountry
+                         select new
+                         {
+                             key = matchByCountry.Key,
+                             PJ = matchByCountry.Count(),
+                             PG = matchByCountry.Count(m =>
+                                                    (m.FirstCountryId == matchByCountry.Key && m.FirstCountryGoals > m.SecondCountryGoals) ||
+                                                    (m.SecondCountryId == matchByCountry.Key && m.SecondCountryGoals > m.FirstCountryGoals)),
+                             PE = matchByCountry.Count(m =>
+                                                    (m.FirstCountryId == matchByCountry.Key && m.FirstCountryGoals == m.SecondCountryGoals) ||
+                                                    (m.SecondCountryId == matchByCountry.Key && m.SecondCountryGoals == m.FirstCountryGoals)),
+                             PP = matchByCountry.Count(m =>
+                                                    (m.FirstCountryId == matchByCountry.Key && m.FirstCountryGoals < m.SecondCountryGoals) ||
+                                                    (m.SecondCountryId == matchByCountry.Key && m.SecondCountryGoals < m.FirstCountryGoals)),
+                             GF = matchByCountry.Select(m => m.FirstCountryId == matchByCountry.Key ? m.FirstCountryGoals : m.SecondCountryGoals).Sum(g => g),
+                             GC = matchByCountry.Select(m => m.FirstCountryId == matchByCountry.Key ? m.SecondCountryGoals : m.FirstCountryGoals).Sum(g => g),
+                             Points = matchByCountry.Sum(m =>
+                                                    m.FirstCountryId == matchByCountry.Key && m.FirstCountryGoals > m.SecondCountryGoals ? 3 :
+                                                    m.SecondCountryId == matchByCountry.Key && m.SecondCountryGoals > m.FirstCountryGoals ? 3 :
+                                                    m.FirstCountryGoals == m.SecondCountryGoals ? 1 : 0)
+                         }).OrderBy(m => m.Points);
+            return query;
+        }
     }
 }
