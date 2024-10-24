@@ -52,5 +52,10 @@ namespace World_Cup.Controllers
                 return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
         }
+        [HttpGet("GetPositionTable")]
+        public ActionResult GetPositionTableByGroup([FromQuery]int group)
+        {
+            return Ok(_worldCupService.GetPositionTableByGroup(group));
+        }
     }
 }

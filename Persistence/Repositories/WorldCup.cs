@@ -71,6 +71,20 @@ namespace Persistence.Repositories
 
             return teams ?? Enumerable.Empty<Country>();
         }
+
+        public IEnumerable<Match> GetPositionTableByGroup(int groupId)
+        {
+            var matchesByGroup = (from groups in _context.Groups
+                                  join championship in _context.ChampionShips on groups.ChampionShipId equals championship.Id
+                                  join matches in _context.Matches on championship.Id equals matches.ChampionShipId
+                                  where groups.Id == groupId
+                                  && _context.CountriesByGroups
+                                     .Where(cbg => cbg.GroupId == groupId)
+                                     .Select(cbg => cbg.CountryId)
+                                     .Contains(matches.FirstCountryId)
+                                  select matches).ToList();
+            return matchesByGroup;
+        }
     }
 
 }
