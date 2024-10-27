@@ -14,5 +14,6 @@ namespace Domain.Repository
         Task<bool> ChampionshipExistsAsync(int championshipId);
         IEnumerable<Match> GetPositionTableByGroup(int groupId);
         Task<(string Name, int Year)?> GetChampionshipInfoAsync(int championshipId);
+        Task<IEnumerable<Group>> GetGroupsByChampionShipAsync(int championShipId);
     }
 }

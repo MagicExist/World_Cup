@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTO_s;
@@ -93,6 +94,20 @@ namespace Application.Services
                                                     m.FirstCountryGoals == m.SecondCountryGoals ? 1 : 0)
                          }).OrderBy(m => m.Points);
             return query;
+        }
+
+        public async IAsyncEnumerable<GroupDTO> GetGroupsByChampionShipAsync(int championShipId)
+        {
+            var groupsList = await worldCupRepository.GetGroupsByChampionShipAsync(championShipId);
+            foreach (var group in groupsList) 
+            {
+                yield return new GroupDTO
+                {
+                    Id = group.Id,
+                    Group = group.Group1,
+                };
+            }
+
         }
     }
 }

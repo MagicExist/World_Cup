@@ -7,17 +7,17 @@ namespace World_Cup.Controllers
 {
     [ApiController]
     [Route("Api/")]
-    public class WorldCupController:ControllerBase
+    public class WorldCupController : ControllerBase
     {
         private readonly WorldCupService _worldCupService;
 
-        public WorldCupController(WorldCupService worldCupService) 
+        public WorldCupController(WorldCupService worldCupService)
         {
             _worldCupService = worldCupService;
         }
 
         [HttpGet("GetChampionship")]
-        public async Task<IActionResult> GetChampionshipAync() 
+        public async Task<IActionResult> GetChampionshipAync()
         {
             LinkedList<ChampionShipDTO> championShipsList = await _worldCupService.GetChampionShipsAsync();
             return Ok(championShipsList);
@@ -53,9 +53,17 @@ namespace World_Cup.Controllers
             }
         }
         [HttpGet("GetPositionTable")]
-        public ActionResult GetPositionTableByGroup([FromQuery]int group)
+        public ActionResult GetPositionTableByGroup([FromQuery] int group)
         {
             return Ok(_worldCupService.GetPositionTableByGroup(group));
+        }
+
+        [HttpGet("GetGroupsByChampionShipId/{championShipId}")]
+        public ActionResult GetGroupsByChampionShipAsync(int championShipId)
+        {
+            var result = _worldCupService.GetGroupsByChampionShipAsync(championShipId);
+            if(result == null) { return NotFound(); }
+            return Ok(result);
         }
     }
 }
