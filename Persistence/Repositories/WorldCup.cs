@@ -85,6 +85,16 @@ namespace Persistence.Repositories
                                   select matches).ToList();
             return matchesByGroup;
         }
+
+        public async Task<IEnumerable<Group>> GetGroupsByChampionShipAsync(int championShipId)
+        {
+            var groupsQuery = await (from groups in _context.Groups
+                         join championShip in _context.ChampionShips
+                         on groups.ChampionShipId equals championShip.Id
+                         where championShip.Id == championShipId
+                         select groups).ToListAsync();
+            return groupsQuery;
+        }
     }
 
 }
