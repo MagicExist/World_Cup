@@ -8,6 +8,7 @@ namespace Application.DTO_s
 {
     public class ChampionshipTeamsDTO
     {
+        public int Id {get; set;}
         public string ChampionshipName { get; set; }
         public int Year { get; set; }
         public IEnumerable<CountryDTO> Teams { get; set; }

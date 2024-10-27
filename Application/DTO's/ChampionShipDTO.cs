@@ -8,8 +8,8 @@ namespace Application.DTO_s
 {
     public class ChampionShipDTO
     {
-        public string name { get; set; } = null!;
-
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
         public short Year { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace Persistence.Repositories
         {
             var championship = await _context.ChampionShips
                 .Where(c => c.Id == championshipId)
-                .Select(c => new { c.ChampionShip1, c.Year })
+                .Select(c => new {c.ChampionShip1, c.Year})
                 .FirstOrDefaultAsync();
 
             if (championship == null)
