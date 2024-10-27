@@ -27,7 +27,8 @@ namespace Application.Services
             {
                 var ChampDTO = new ChampionShipDTO() 
                 {
-                    name = championship.ChampionShip1,
+                    Id = championship.Id,
+                    Name = championship.ChampionShip1,
                     Year = championship.Year
                 };
                 WorldCupDTOList.AddLast(ChampDTO);
